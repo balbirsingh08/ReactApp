@@ -12,9 +12,14 @@ const tmdb = axios.create({
 
 // Helper function to build image URLs
 export const getImageUrl = (path, size = "w500") => {
-  return path
-    ? `https://image.tmdb.org/t/p/${size}${path}`
-    : "/placeholder-movie.png";
+  if (!path) {
+    // Use SVG data URI as fallback instead of external URL
+    const width = size === "w500" ? 500 : size === "w300" ? 300 : 185;
+    const height = size === "w500" ? 750 : size === "w300" ? 450 : 278;
+
+    return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'><rect width='${width}' height='${height}' fill='%232c3e50'/><text x='50%' y='50%' font-family='Arial, sans-serif' font-size='18' fill='%23ecf0f1' text-anchor='middle' dominant-baseline='middle'>No Image</text></svg>`;
+  }
+  return `https://image.tmdb.org/t/p/${size}${path}`;
 };
 
 // API calls
