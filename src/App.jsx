@@ -8,9 +8,12 @@ import { WatchlistProvider } from "./contexts/WatchlistContext.jsx";
 import "./App.css";
 
 function App() {
+  // Set basename for production (GitHub Pages) vs development
+  const basename = import.meta.env.MODE === "production" ? "/ReactApp" : "/";
+
   return (
     <WatchlistProvider>
-      <Router>
+      <Router basename={basename}>
         <div className="App">
           <Navigation />
           <main className="main-content">
